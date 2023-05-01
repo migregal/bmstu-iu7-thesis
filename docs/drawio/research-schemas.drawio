@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-04-30T09:41:30.645Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="R-6Ha5uxP5rvePhgPA5u" version="21.2.3" type="device" pages="12">
+<mxfile host="app.diagrams.net" modified="2023-05-01T19:33:02.285Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="Bzz4lmZaWKce-_GgeA70" version="21.2.3" type="device" pages="12">
   <diagram id="mAgg1yGwfZaQEEpxqsed" name="cnn">
     <mxGraphModel dx="1434" dy="891" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -571,7 +571,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="x3lGaW7-DJWZF4aMvfp5" name="faster-r-cnn">
-    <mxGraphModel dx="1195" dy="695" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="795" dy="493" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3005,7 +3005,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="wBMbMHWkzKYW07TnB9Pj" name="method">
-    <mxGraphModel dx="1434" dy="891" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="954" dy="591" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -3033,14 +3033,19 @@
             <mxPoint x="460" y="120" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="4Bh4RUHBsoLxILgaE4ew-1" value="Весовые коэффициенты&lt;br&gt;классификаторов&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=16;labelBackgroundColor=none;" vertex="1" connectable="0" parent="b5BUa7UdkXmnFL-DeIMG-6">
+          <mxGeometry x="-0.2667" y="3" relative="1" as="geometry">
+            <mxPoint x="-117" y="-4" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="b5BUa7UdkXmnFL-DeIMG-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="b5BUa7UdkXmnFL-DeIMG-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="424" y="170" as="sourcePoint" />
             <mxPoint x="750" y="360" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="b5BUa7UdkXmnFL-DeIMG-11" value="Алгоритмы анализа,&lt;br style=&quot;font-size: 16px;&quot;&gt;обработки и преобразования &lt;br style=&quot;font-size: 16px;&quot;&gt;изображений" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
-          <mxGeometry x="160" y="480" width="250" height="70" as="geometry" />
+        <mxCell id="b5BUa7UdkXmnFL-DeIMG-11" value="Алгоритмы&amp;nbsp;преобразования &lt;br style=&quot;font-size: 16px;&quot;&gt;изображений" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
+          <mxGeometry x="174" y="490" width="240" height="50" as="geometry" />
         </mxCell>
         <mxCell id="b5BUa7UdkXmnFL-DeIMG-12" value="Изображение" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
           <mxGeometry x="75" y="330" width="130" height="30" as="geometry" />

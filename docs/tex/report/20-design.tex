@@ -2,9 +2,25 @@
 
 \section{Требования к разрабатываемому методу}
 
+Метод обнаружения надводных объектов должен:
+\begin{itemize}[label=---]
+    \item принимать на вход изображения в форматах PNG, JPG, JPEG;
+    \item TODO
+\end{itemize}
+
 \section{Требования к разрабатываемому программному комплексу}
 
+Программный комплекс, реализующий интерфейс для разработанного метода, должен предоставлять:
+\begin{itemize}[label=---]
+    \item возможность загрузки изображений через графический интерфес;
+    \item возможность создания итогового изображения с обрамляющими окнами обнаруженных объектов.
+\end{itemize}
+
+\section{Выбор семейства/метода обнаружения}
+
 \section{Проектирование метода обнаружения}
+
+В разрабатываемом методе будет использоваться CNN YOLOv8n.
 
 \section{Структура разрабатываемого программного комплекса}
 
@@ -13,5 +29,12 @@
 В качестве данных для обучения моделей были выбраны два набора данных:
 \begin{itemize}[label=---]
     \item kaggle-ships-in-google-earth~\cite{kaggle-ships-in-google-earth-dfqwt_dataset};
-    \item VAIS\_RGB+SMD+MARITIME+WSODD+MARVEL~\cite{vais_rgb-smd-maritime-wsodd-marvel_dataset}.
+    \item VAIS\_RGB+SMD+MARITIME+WSODD+MARVEL~\cite{vais_rgb-smd-maritime-wsodd-marvel_dataset};
+    \item \cite{ship-ubxk4_dataset}.
 \end{itemize}
+
+\section{Формат хранения разметки данных}
+
+\section{Обучение и тестирование слабых экспертов}
+
+\section{Вывод}
