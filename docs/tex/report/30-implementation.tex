@@ -2,7 +2,7 @@
 
 \section{Средства реализации}
 
-\subsection{Выбор языка программирования}
+\subsection*{Выбор языка программирования}
 
 Для написания программного комплекса будет использоваться язык программирования Python~3~\cite{python3}. Данный выбор обусловлен следующими факторами:
 \begin{itemize}[label=---]
@@ -11,7 +11,7 @@
 использованием технологии CUDA~\cite{cuda}.
 \end{itemize}
 
-\subsection{Выбор библиотеки глубокого обучения}
+\subsection*{Выбор библиотеки глубокого обучения}
 
 Для создания и обучения модели нейронной сети была выбрана библиотека PyTorch~\cite{pytorch} версии 2.0.0. Выбор данной версии обусловлен поддержкой CUDA 11.8, предоставляемой GPU NVIDIA GeForce RTX 2060~\cite{rtx2060}, на котором будет производиться обучение нейронной сети.
 
@@ -19,17 +19,19 @@
 
 \subsection{Тренировка слабых экспертов}
 
+\clearpage
+
 \section{Результаты обучения слабых экспертов}
 
-\includelistingpretty{train_1.txt}{}{Результат обучения слабого эксперта}
+\includelisting{train_1.txt}{}{Результат обучения слабого эксперта}
 
 \begin{figure}[htp]
 	\centering
 	\begin{tikzpicture}
 		\begin{axis}[
 			axis lines=left,
-			xlabel={Точность},
-			ylabel={Эпоха},
+			xlabel={Эпоха},
+			ylabel={P},
 			legend pos=north west,
 			ymajorgrids=true,
 			xmajorgrids=true,
@@ -41,7 +43,7 @@
 		\end{axis}
 	\end{tikzpicture}
 	\captionsetup{justification=centering}
-	\caption{Точность слабых экспертов}
+	\caption{Точность слабых экспертов (P)}
 	\label{plt:precision}
 \end{figure}
 
