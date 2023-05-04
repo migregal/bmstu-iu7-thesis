@@ -17,9 +17,33 @@
 
 \section{Реализация программного комплекса}
 
-\subsection{Тренировка модели}
+\subsection{Тренировка слабых экспертов}
 
-\section{Результаты обучения модели}
+\section{Результаты обучения слабых экспертов}
+
+\includelistingpretty{train_1.txt}{}{Результат обучения слабого эксперта}
+
+\begin{figure}[htp]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			axis lines=left,
+			xlabel={Точность},
+			ylabel={Эпоха},
+			legend pos=north west,
+			ymajorgrids=true,
+			xmajorgrids=true,
+			xtick={10,20,30,40,50,60,70,80,90,100},	
+			ytick={0.7,0.72,0.74,0.76,0.78,0.8,0.82,0.84,0.86,0.88,0.90,0.92,0.94,0.96}
+		]
+			\addplot table[x=epoch,y=metrics/precision(B),col sep=comma] {inc/csv/train_1.csv};
+            %\legend{Без кэширования, С кэшированием}
+		\end{axis}
+	\end{tikzpicture}
+	\captionsetup{justification=centering}
+	\caption{Точность слабых экспертов}
+	\label{plt:precision}
+\end{figure}
 
 \section{Примеры использования разработанного программного комплекса}
 
