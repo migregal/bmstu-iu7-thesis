@@ -1,0 +1,21 @@
+\frame {
+	\frametitle{\LARGE Сравнение типов нейронных сетей}
+	\vskip3.5em
+    
+    \begin{table}[!h]
+        \small
+        \begin{center}
+            \begin{tabular}{|l|c|c|c|c|}
+                \hline
+                    Тип & Возможность & \multicolumn{3}{c|}{Устойчивость к} \\ \cline{3-5}
+                    нейронной & параллельного & искажениям & смещениям & высоким  \\
+                    сети & обучения & & & шумам \\\hline
+                Персептрон & + & ---  & --- & + \\
+                Рекуррентная & + & + & + & + \\
+                \rowcolor{lightgray} \textbf{Сверточная} & \textbf{+} & \textbf{+} & \textbf{+} & \textbf{+} \\
+                Капсульная & + & + & + & --- \\
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}	
+}

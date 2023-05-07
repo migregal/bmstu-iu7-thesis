@@ -1,0 +1,37 @@
+\frame {
+	\frametitle{\LARGE Исследование}
+	\pgfplotsset{tick label style={font=\tiny\bfseries},
+        label style={font=\small},
+        legend style={font=\tiny}
+    }
+    \begin{columns}
+        \footnotesize
+        \begin{column}{0.6\textwidth}
+            \vskip3.5em
+            Технические характеристики:
+            \begin{itemize}
+                \item CPU: Intel~Core™~i7-4790~CPU~@~3.60ГГц;
+                \item GPU: NVIDIA~GeForce~RTX~2060~6144Мб;
+                \item RAM: 16~Гб;
+                \item операционная система: Ubuntu~22.04~via~WSL~2~on~Windows~10.
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.4\textwidth}
+            \begin{tikzpicture}[scale=.5]
+                \begin{axis}[
+                    legend pos=south east,
+                    ymajorgrids=true,
+                    xmajorgrids=true,
+                    xtick={10,20,30,40,50,60,70,80,90,100},	
+                    xlabel={Эпоха},
+                    ylabel={P}
+                    ]
+                    \addplot table[x=epoch,y=metrics/precision(B),col sep=comma] {inc/csv/train_1.csv};
+			\addplot table[x=epoch,y=metrics/precision(B),col sep=comma] {inc/csv/train_2.csv};;
+                    \legend{Kaggle Ships, ShipRSImageNet}
+                \end{axis}
+                \end{tikzpicture}
+        \end{column}
+    \end{columns}
+}
