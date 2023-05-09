@@ -1,0 +1,16 @@
+15 epochs completed in 5.457 hours.
+Optimizer stripped from runs/detect/train3/weights/last.pt, 6.2MB
+Optimizer stripped from runs/detect/train3/weights/best.pt, 6.2MB
+Validating runs/detect/train3/weights/best.pt...
+Ultralytics YOLOv8.0.92 🚀 Python-3.10.11 torch-2.0.0 CUDA:0 (NVIDIA GeForce RTX 2060, 6144MiB)
+Model summary (fused): 168 layers, 3007598 parameters, 0 gradients, 8.1 GFLOPs
+Class  Images  Instances  Box(P      R  mAP50  mAP50-95): 100%|----------| 348/348 [01:11<00:00,  4.86it/s]
+  all    6256      11638  0.831  0.827  0.845      0.584
+    1    6256       3197  0.902  0.774   0.89      0.547
+    2    6256        437  0.872  0.982  0.952      0.707
+    3    6256       4485  0.396  0.316  0.298        0.1
+    5    6256       1909   0.92  0.975  0.984       0.78
+    6    6256        667  0.925      1  0.995      0.796
+    8    6256        943  0.973  0.916  0.952      0.577
+Speed: 0.2ms preprocess, 2.9ms inference, 0.0ms loss, 1.7ms postprocess per image
+Results saved to runs/detect/train3
