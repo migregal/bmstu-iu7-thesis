@@ -1,5 +1,9 @@
 import argparse
 
+import ray
+
+import matplotlib.pyplot as plt
+
 from method import Method
 
 def process(path: str, image: str, output: str):
@@ -7,7 +11,10 @@ def process(path: str, image: str, output: str):
 
     # TODO: add preprocessing
 
-    method.predict(image, output)
+    imgs = method.predict(image)
+
+    for (i, img) in enumerate(imgs):
+        plt.imsave(f'predicted_{i}.png', img)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -17,4 +24,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    ray.init(log_to_driver=False)
+
     process(args.model, args.image, args.output)
+
+    ray.shutdown()
