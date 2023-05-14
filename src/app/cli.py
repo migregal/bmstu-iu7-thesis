@@ -1,11 +1,12 @@
 import argparse
+import os
+from pathlib import Path
+import time
 
 import cv2
-import matplotlib.pyplot as plt
-
 import ray
 
-from method import Method
+from method.detect import Detect
 
 
 def process(path: str, input: str, output: str):
@@ -13,7 +14,7 @@ def process(path: str, input: str, output: str):
     color = (200, 128, 128)
     # txt_color=(255, 255, 255)
 
-    method = Method(path)
+    method = Detect(path)
 
     im = cv2.imread(input)
     lw = line_width or max(round(sum(im.shape) / 2 * 0.003), 2)
@@ -30,7 +31,8 @@ def process(path: str, input: str, output: str):
         )
         cv2.rectangle(im, p1, p2, color, thickness=lw, lineType=cv2.LINE_AA)
 
-    cv2.imwrite("test.jpeg", im)
+    Path(output).mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(os.path.join(output, f"detect-{int(time.time())}.jpeg"), im)
 
     # if label:
     #     tf = max(self.lw - 1, 1)  # font thickness
@@ -64,7 +66,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    ray.init(log_to_driver=False)
+    ray.init(log_to_driver=False, num_gpus=1)
 
     process(args.model, args.image, args.output)
 

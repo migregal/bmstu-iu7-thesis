@@ -1,16 +1,4 @@
-import os
-
 import numpy as np
-
-from ultralytics import YOLO
-
-import ray
-
-
-@ray.remote
-def apply_expert(image: np.ndarray, expert: YOLO) -> np.ndarray:
-    r = expert.predict(image)
-    return np.array(r[0].boxes.xyxyn)
 
 
 def get_bbox_area(bbox) -> np.float32:
@@ -69,35 +57,3 @@ def deduplicate_wbboxes(wbboxes, limit: float = 0.75) -> np.ndarray:
             bboxes += [cur[1]]
 
     return np.array(bboxes)
-
-
-class Method:
-    experts: list[YOLO] = []
-
-    def __init__(self, path: str, ext: tuple[str, ...] = tuple(".pt")):
-        if os.path.isfile(path):
-            self.experts += [YOLO(path)]
-            return
-
-        for fname in os.listdir(path):
-            if not fname.endswith(ext):
-                continue
-
-            f = os.path.join(path, fname)
-            if not os.path.isfile(f):
-                continue
-
-            self.experts += [YOLO(f)]
-
-    def predict(self, input: np.ndarray) -> np.ndarray:
-        ray_ids = []
-        for model in self.experts:
-            ray_ids += [apply_expert.remote(input, model)]
-
-        experts_res = ray.get(ray_ids)
-
-        wbboxes = []
-        for prev in experts_res:
-            wbboxes += [[0.5, bbox] for bbox in prev]
-
-        return deduplicate_wbboxes(wbboxes)
