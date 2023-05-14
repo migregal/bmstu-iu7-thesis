@@ -7,9 +7,10 @@ import ray
 
 from method import Method
 
+
 def process(path: str, input: str, output: str):
     line_width = None
-    color=(200, 128, 128)
+    color = (200, 128, 128)
     # txt_color=(255, 255, 255)
 
     method = Method(path)
@@ -23,11 +24,13 @@ def process(path: str, input: str, output: str):
 
     x, y = im.shape[1], im.shape[0]
     for bbox in bboxes:
-        p1, p2 = (int(x*bbox[0]), int(y*bbox[1])), (int(x*bbox[2]), int(y*bbox[3]))
+        p1, p2 = (int(x * bbox[0]), int(y * bbox[1])), (
+            int(x * bbox[2]),
+            int(y * bbox[3]),
+        )
         cv2.rectangle(im, p1, p2, color, thickness=lw, lineType=cv2.LINE_AA)
 
-    cv2.imwrite('test.jpeg', im)
-
+    cv2.imwrite("test.jpeg", im)
 
     # if label:
     #     tf = max(self.lw - 1, 1)  # font thickness
@@ -46,9 +49,18 @@ def process(path: str, input: str, output: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-m', '--model', default='./experts/', help='Путь к файлу с обученной моделью')
-    parser.add_argument('-i', '--image', default='data/file.jpeg', help='Пусть к файлу снимка')
-    parser.add_argument('-o', '--output', default='predicted', help='Директория для сохранения результатов')
+    parser.add_argument(
+        "-m", "--model", default="./experts/", help="Путь к файлу с обученной моделью"
+    )
+    parser.add_argument(
+        "-i", "--image", default="data/file.jpeg", help="Пусть к файлу снимка"
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="predicted",
+        help="Директория для сохранения результатов",
+    )
 
     args = parser.parse_args()
 

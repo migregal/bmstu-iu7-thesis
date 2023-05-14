@@ -10,7 +10,6 @@ import ray
 @ray.remote
 def apply_expert(image: np.ndarray, expert: YOLO) -> np.ndarray:
     r = expert.predict(image)
-    # return r[0].plot()
     return np.array(r[0].boxes.xyxyn)
 
 
