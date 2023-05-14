@@ -12,7 +12,7 @@ def get_intersection_coords(bbox_1: np.ndarray, bbox_2: np.ndarray) -> np.ndarra
     return np.array([x_l, y_t, x_r, y_b])
 
 
-def get_iou(bbox_1: list[float], bbox_2) -> np.float32:
+def get_iou(bbox_1: np.ndarray, bbox_2: np.ndarray) -> np.float32:
     x_l, y_t, x_r, y_b = get_intersection_coords(bbox_1, bbox_2)
     if x_r < x_l or y_b < y_t:
         return np.float32(0.0)
@@ -25,7 +25,7 @@ def get_iou(bbox_1: list[float], bbox_2) -> np.float32:
     )
 
 
-def deduplicate_wbboxes(wbboxes, limit: float = 0.75) -> np.ndarray:
+def deduplicate_wbboxes(wbboxes, limit: float = 0.75):
     bboxes = []
 
     for i in range(len(wbboxes)):
@@ -36,24 +36,25 @@ def deduplicate_wbboxes(wbboxes, limit: float = 0.75) -> np.ndarray:
             if iou < limit:
                 continue
 
-            if cur[0] < other[0]:
+            if cur[0] * cur[2] < other[0] * other[2]:
                 skip = True
-                continue
+                break
 
             tmp = get_intersection_coords(cur[1], other[1])
             if get_bbox_area(tmp) < get_bbox_area(cur[1]):
                 cur[1] = tmp
+                cur[2] = max(cur[2], other[2])
 
         if skip:
             continue
 
         for j in range(len(bboxes)):
             bbox = bboxes[j]
-            if limit < get_iou(cur[1], bbox):
+            if limit < get_iou(cur[1], bbox[0]):
                 skip = True
                 break
 
         if not skip:
-            bboxes += [cur[1]]
+            bboxes += [(cur[1], cur[2])]
 
-    return np.array(bboxes)
+    return bboxes
