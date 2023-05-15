@@ -6,6 +6,7 @@ from ultralytics import YOLO
 import ray
 
 from method.utils import deduplicate_wbboxes
+from method.deduplicate import deduplicate_wbboxes_2
 
 
 @ray.remote(num_gpus=0.25)
@@ -36,4 +37,4 @@ class Detect:
 
         wbboxes = [[0.5, np.array(b), np.float32(c)] for p in r for b, c in zip(*p)]
 
-        return deduplicate_wbboxes(wbboxes)
+        return deduplicate_wbboxes_2(wbboxes)
