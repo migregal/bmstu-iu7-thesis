@@ -53,16 +53,12 @@ def find_closest_intersection(bboxes) -> np.ndarray:
     return res
 
 
-def deduplicate_wbboxes_2(wbboxes, limit: float = 0.75):
+def deduplicate_wbboxes(wbboxes, limit: float = 0.75):
     wbboxes = [wbboxes[2]] + wbboxes[6:]
 
     m = {i: [[], []] for i in range(len(wbboxes))}
     for i in range(len(wbboxes)):
         for j in range(i + 1, len(wbboxes)):
-            # if get_bbox_weight(wbboxes[i]) < get_bbox_weight(wbboxes[j]):
-            #     print(' <', i, m.pop(i, None))
-            #     break
-
             if limit > get_iou(wbboxes[i][1], wbboxes[j][1]):
                 continue
 
