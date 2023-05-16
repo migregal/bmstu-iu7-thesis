@@ -75,7 +75,7 @@ def get_wbboxes_intersection_matrix(wbboxes, limit):
     return m
 
 
-def deduplicate_wbboxes(wbboxes, limit: float = 0.75):
+def deduplicate_wbboxes(wbboxes: list, limit: float = 0.75) -> np.ndarray:
     m = get_wbboxes_intersection_matrix(wbboxes, limit)
 
     bboxes = []
@@ -97,7 +97,7 @@ def deduplicate_wbboxes(wbboxes, limit: float = 0.75):
         if weight(wbboxes[lst[0]]) > weight(cur):
             continue
 
-        tmp = np.array([wbboxes[j][1] for j in lst])
+        tmp = np.array([cur[1]] + [wbboxes[j][1] for j in lst])
         bboxes += [
             (
                 find_closest_intersection(tmp),
