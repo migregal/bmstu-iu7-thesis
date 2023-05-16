@@ -74,7 +74,7 @@ def get_wbboxes_intersection_matrix(wbboxes, limit):
     return m
 
 
-def deduplicate_wbboxes(wbboxes: list, limit: float = 0.75) -> np.ndarray:
+def deduplicate_wbboxes(wbboxes: list, limit: np.float32 = 0.75) -> np.ndarray:
     m = get_wbboxes_intersection_matrix(wbboxes, limit)
 
     bboxes = []
