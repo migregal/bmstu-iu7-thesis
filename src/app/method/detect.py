@@ -19,6 +19,7 @@ def apply_expert(image: np.ndarray, expert: YOLO):
 
 class Detect:
     experts: list[YOLO] = []
+    weights: np.ndarray
 
     def __init__(self, path: str, ext: tuple[str, ...] = tuple(".pt")):
         if os.path.isfile(path):
@@ -28,12 +29,22 @@ class Detect:
         fnames = [os.path.join(path, f) for f in os.listdir(path) if f.endswith(ext)]
 
         self.experts += [YOLO(f) for f in fnames if os.path.isfile(f)]
+        self.weights = np.ones(len(self.experts))
 
-    def predict(self, input: cv2.Mat) -> np.ndarray:
+    def predict(self, input: cv2.Mat, w: np.ndarray = None) -> None | np.ndarray:
+        w = w or self.weights
+
+        if len(w) != len(self.experts):
+            return None
+
         input_id = ray.put(input)
         ray_ids = [apply_expert.remote(input_id, model) for model in self.experts]
         r = ray.get(ray_ids)
 
-        wbboxes = [[0.5, np.array(b), np.float32(c)] for p in r for b, c in zip(*p)]
+        wbboxes = [
+            [w[i], np.array(b), np.float32(c)]
+            for i, p in enumerate(r)
+            for b, c in zip(*p)
+        ]
 
         return deduplicate_wbboxes(wbboxes)
