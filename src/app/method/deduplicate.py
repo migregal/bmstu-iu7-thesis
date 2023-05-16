@@ -6,6 +6,7 @@ from method.utils import (
     get_mass_center,
     get_intersection_of_n_bboxes,
     get_bbox_center,
+    get_bbox_weight,
     get_iou,
 )
 
@@ -53,30 +54,52 @@ def find_closest_intersection(bboxes) -> np.ndarray:
 
 
 def deduplicate_wbboxes_2(wbboxes, limit: float = 0.75):
-    m = {}
+    wbboxes = [wbboxes[2]] + wbboxes[6:]
 
+    m = {i: [[], []] for i in range(len(wbboxes))}
     for i in range(len(wbboxes)):
         for j in range(i + 1, len(wbboxes)):
-            if limit < get_iou(wbboxes[i][1], wbboxes[j][1]):
-                m[i] = m[i] + [j] if i in m else [j]
+            # if get_bbox_weight(wbboxes[i]) < get_bbox_weight(wbboxes[j]):
+            #     print(' <', i, m.pop(i, None))
+            #     break
+
+            if limit > get_iou(wbboxes[i][1], wbboxes[j][1]):
+                continue
+
+            if len([1 for k in m[j][1] if j in m[k][0]]) > 0:
+                continue
+
+            m[i], m[j] = [m[i][0] + [j], m[i][1]], [m[j][0], m[j][1] + [i]]
 
     bboxes = []
     for i in range(len(wbboxes)):
         cur = wbboxes[i]
-        if i not in m:
+        if len(m[i][0]) == 0 and len(m[i][1]) == 0:
             bboxes += [(cur[1], cur[2])]
             continue
 
-        lst = list(filter(lambda j: cur[0] <= wbboxes[j][0], m[i]))
+        if len(m[i][0]) == 0:
+            continue
+
+        lst = list(
+            filter(
+                lambda j: get_bbox_weight(cur) <= get_bbox_weight(wbboxes[j]), m[i][0]
+            )
+        )
         if len(lst) == 0:
             bboxes += [(cur[1], cur[2])]
             continue
 
         lst.sort(key=lambda j: wbboxes[j][0], reverse=True)
-        if wbboxes[lst[0]][0] > cur[0]:
+        if get_bbox_weight(wbboxes[lst[0]]) > get_bbox_weight(cur):
             continue
 
         tmp = np.array([wbboxes[j][1] for j in lst])
-        bboxes += [(find_closest_intersection(tmp), cur[2])]
+        bboxes += [
+            (
+                find_closest_intersection(tmp),
+                np.max([cur[2]] + [wbboxes[j][2] for j in lst]),
+            )
+        ]
 
     return bboxes
