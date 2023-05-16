@@ -6,8 +6,8 @@ from method.utils import (
     get_mass_center,
     get_intersection_of_n_bboxes,
     get_bbox_center,
-    get_bbox_weight,
-    get_iou,
+    get_bbox_weight as weight,
+    get_iou as iou,
 )
 
 
@@ -53,22 +53,33 @@ def find_closest_intersection(bboxes) -> np.ndarray:
     return res
 
 
-def deduplicate_wbboxes(wbboxes, limit: float = 0.75):
-    wbboxes = [wbboxes[2]] + wbboxes[6:]
-
+def get_wbboxes_intersection_matrix(wbboxes, limit):
     m = {i: [[], []] for i in range(len(wbboxes))}
     for i in range(len(wbboxes)):
-        for j in range(i + 1, len(wbboxes)):
-            if limit > get_iou(wbboxes[i][1], wbboxes[j][1]):
-                continue
+        cur = wbboxes[i]
+        lst = [
+            j for j in range(i + 1, len(wbboxes)) if limit <= iou(cur[1], wbboxes[j][1])
+        ]
 
-            if len([1 for k in m[j][1] if j in m[k][0]]) > 0:
+        # if there is some bbox with higher weight
+        if len([True for j in lst if weight(cur) < weight(wbboxes[j])]) > 0:
+            m.pop(i, None)
+            continue
+
+        for j in lst:
+            if len([True for k in m[j][1] if j in m[k][0]]) > 0:
                 continue
 
             m[i], m[j] = [m[i][0] + [j], m[i][1]], [m[j][0], m[j][1] + [i]]
 
+    return m
+
+
+def deduplicate_wbboxes(wbboxes, limit: float = 0.75):
+    m = get_wbboxes_intersection_matrix(wbboxes, limit)
+
     bboxes = []
-    for i in range(len(wbboxes)):
+    for i in m.keys():
         cur = wbboxes[i]
         if len(m[i][0]) == 0 and len(m[i][1]) == 0:
             bboxes += [(cur[1], cur[2])]
@@ -77,17 +88,13 @@ def deduplicate_wbboxes(wbboxes, limit: float = 0.75):
         if len(m[i][0]) == 0:
             continue
 
-        lst = list(
-            filter(
-                lambda j: get_bbox_weight(cur) <= get_bbox_weight(wbboxes[j]), m[i][0]
-            )
-        )
+        lst = list(filter(lambda j: weight(cur) <= weight(wbboxes[j]), m[i][0]))
         if len(lst) == 0:
             bboxes += [(cur[1], cur[2])]
             continue
 
         lst.sort(key=lambda j: wbboxes[j][0], reverse=True)
-        if get_bbox_weight(wbboxes[lst[0]]) > get_bbox_weight(cur):
+        if weight(wbboxes[lst[0]]) > weight(cur):
             continue
 
         tmp = np.array([wbboxes[j][1] for j in lst])

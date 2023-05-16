@@ -52,5 +52,4 @@ def get_iou(bbox_1: np.ndarray, bbox_2: np.ndarray) -> np.float32:
 
 
 def get_bbox_weight(bbox):
-    # return bbox[0] * bbox[2]
-    return bbox[0]
+    return bbox[0] * bbox[2]
