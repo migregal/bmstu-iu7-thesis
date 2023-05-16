@@ -87,13 +87,20 @@ def deduplicate_wbboxes(wbboxes: list, limit: np.float32 = 0.75) -> np.ndarray:
         if len(m[i][0]) == 0:
             continue
 
-        lst = list(filter(lambda j: weight(cur) <= weight(wbboxes[j]), m[i][0]))
-        if len(lst) == 0:
-            bboxes += [(cur[1], cur[2])]
+        lst, skip = [], False
+        for j in m[i][0]:
+            if weight(cur) == weight(wbboxes[j]):
+                lst += [j]
+
+            if weight(cur) < weight(wbboxes[j]):
+                skip = False
+                break
+
+        if skip:
             continue
 
-        lst.sort(key=lambda j: wbboxes[j][0], reverse=True)
-        if weight(wbboxes[lst[0]]) > weight(cur):
+        if len(lst) == 0:
+            bboxes += [(cur[1], cur[2])]
             continue
 
         lst = np.array([cur[1]] + [wbboxes[j][1] for j in lst])
