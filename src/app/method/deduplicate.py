@@ -11,17 +11,15 @@ from method.utils import (
 )
 
 
-def find_closest_intersection(bboxes) -> np.ndarray:
-    res, res_c, c = None, None, get_mass_center(bboxes)
+def find_closest_intersection(
+    bboxes: np.ndarray, conf: np.ndarray
+) -> tuple[np.ndarray, np.float32]:
+    res, conf = None, np.float32(0.0)
+    cur_c, c = None, None, get_mass_center(bboxes)
 
     stack = collections.deque()
 
-    stack.append(
-        {
-            "idx": -1,
-            "lst": [],
-        }
-    )
+    stack.append({"idx": -1, "lst": [], "conf": conf})
 
     while stack:
         route = stack.pop()
@@ -38,8 +36,8 @@ def find_closest_intersection(bboxes) -> np.ndarray:
                 continue
 
             tmp = get_bbox_center(intersection)
-            if res is None or (np.linalg.norm(c - tmp) < np.linalg.norm(c - res_c)):
-                res, res_c = intersection, tmp
+            if res is None or (np.linalg.norm(c - tmp) < np.linalg.norm(c - cur_c)):
+                res, conf, cur_c = intersection, route["conf"], tmp
 
         if route["idx"] < len(bboxes):
             stack.append(route)
@@ -47,10 +45,11 @@ def find_closest_intersection(bboxes) -> np.ndarray:
                 {
                     "idx": route["idx"],
                     "lst": route["lst"] + [route["idx"]],
+                    "conf": max(route["conf"], [conf["idx"]]),
                 }
             )
 
-    return res
+    return res, conf
 
 
 def get_wbboxes_intersection_matrix(wbboxes, limit):
@@ -97,12 +96,8 @@ def deduplicate_wbboxes(wbboxes: list, limit: float = 0.75) -> np.ndarray:
         if weight(wbboxes[lst[0]]) > weight(cur):
             continue
 
-        tmp = np.array([cur[1]] + [wbboxes[j][1] for j in lst])
-        bboxes += [
-            (
-                find_closest_intersection(tmp),
-                np.max([cur[2]] + [wbboxes[j][2] for j in lst]),
-            )
-        ]
+        lst = np.array([cur[1]] + [wbboxes[j][1] for j in lst])
+        conf = np.array([cur[2]] + [wbboxes[j][2] for j in lst])
+        bboxes += [(*find_closest_intersection(lst, conf),)]
 
     return bboxes
