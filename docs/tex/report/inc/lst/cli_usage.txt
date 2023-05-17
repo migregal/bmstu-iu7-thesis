@@ -1,0 +1,2 @@
+$ python3 cli.py -m ./experts -i ./multiple.jpg
+2023-05-17 15:29:53,529 INFO worker.py:1625 -- Started a local Ray instance.

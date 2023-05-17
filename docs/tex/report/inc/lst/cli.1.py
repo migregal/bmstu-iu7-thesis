@@ -1,7 +1,7 @@
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-m", "--model", default="./experts/", help="Путь к файлу с обученной моделью"
+        "-m", "--model", default="./experts/", help="Путь к файлу/директории с обученной моделью"
     )
     parser.add_argument(
         "-i", "--image", default="data/file.jpeg", help="Пусть к файлу снимка"
