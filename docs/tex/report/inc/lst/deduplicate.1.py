@@ -1,38 +1,37 @@
-    stack = collections.deque()
     stack.append({"idx": -1, "lst": [], "conf": conf})
 
     while stack:
-        route = stack.pop()
+        sub = stack.pop()
 
-        if route["idx"] == len(bboxes):
+        if sub["idx"] == len(bboxes):
             continue
 
-        route["idx"] += 1
+        sub["idx"] += 1
 
-        lst = np.array([bboxes[i] for i in route["lst"]])
+        lst = np.array([bboxes[i] for i in sub["lst"]])
         if len(lst) > 0:
             intersection = get_intersection_of_n_bboxes(lst)
             if intersection is None:
                 continue
 
             tmp = get_bbox_center(intersection)
-            if res is None or (np.linalg.norm(c - tmp) < np.linalg.norm(c - cur_c)):
-                res, conf, cur_c = intersection, route["conf"], tmp
+            if np.linalg.norm(c - tmp) < np.linalg.norm(c - cur_c):
+                res, conf, cur_c = intersection, sub["conf"], tmp
 
-        if route["idx"] < len(bboxes):
-            stack.append(route)
+        if sub["idx"] < len(bboxes):
+            stack.append(sub)
             stack.append(
                 {
-                    "idx": route["idx"],
-                    "lst": route["lst"] + [route["idx"]],
-                    "conf": max(route["conf"], [conf["idx"]]),
+                    "idx": sub["idx"],
+                    "lst": sub["lst"] + [sub["idx"]],
+                    "conf": max(sub["conf"], confs["idx"]),
                 }
             )
 
     return res, conf
 
 
-def get_wbboxes_intersection_matrix(wbboxes, limit):
+def get_wbboxes_intersection_matrix(wbboxes: list, limit: np.float32 = 0.75) -> dict:
     m = {i: [[], []] for i in range(len(wbboxes))}
     for i in range(len(wbboxes)):
         cur = wbboxes[i]

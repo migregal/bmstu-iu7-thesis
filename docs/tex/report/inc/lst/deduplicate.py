@@ -12,7 +12,8 @@ from method.utils import (
 
 
 def find_closest_intersection(
-    bboxes: np.ndarray, conf: np.ndarray
+    bboxes: np.ndarray, confs: np.ndarray
 ) -> tuple[np.ndarray, np.float32]:
-    res, conf = None, np.float32(0.0)
-    cur_c, c = None, None, get_mass_center(bboxes)
+    res, conf = bboxes[0], confs[0]
+    cur_c, c = get_bbox_center(res), get_mass_center(bboxes)
+    stack = collections.deque()

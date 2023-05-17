@@ -1,14 +1,15 @@
-        lst = [
-            j for j in range(i + 1, len(wbboxes)) if limit <= iou(cur[1], wbboxes[j][1])
-        ]
+        lst = []
+        for j in range(i + 1, len(wbboxes)):
+            if limit <= iou(cur[1], wbboxes[j][1]):
+                lst += [j]
 
-        # if there is some bbox with higher weight
-        if len([True for j in lst if weight(cur) < weight(wbboxes[j])]) > 0:
-            m.pop(i, None)
-            continue
+            if weight(cur) < weight(wbboxes[j]):
+                m.pop(i, None)
+                lst = []
+                break
 
         for j in lst:
-            if len([True for k in m[j][1] if j in m[k][0]]) > 0:
+            if next((True for k in m[j][1] if j in m[k][0]), False):
                 continue
 
             m[i], m[j] = [m[i][0] + [j], m[i][1]], [m[j][0], m[j][1] + [i]]
