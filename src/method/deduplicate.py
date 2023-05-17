@@ -12,61 +12,62 @@ from method.utils import (
 
 
 def find_closest_intersection(
-    bboxes: np.ndarray, conf: np.ndarray
+    bboxes: np.ndarray, confs: np.ndarray
 ) -> tuple[np.ndarray, np.float32]:
-    res, conf = None, np.float32(0.0)
-    cur_c, c = None, None, get_mass_center(bboxes)
+    res, conf = bboxes[0], confs[0]
+    cur_c, c = get_bbox_center(res), get_mass_center(bboxes)
 
     stack = collections.deque()
-
     stack.append({"idx": -1, "lst": [], "conf": conf})
 
     while stack:
-        route = stack.pop()
+        sub = stack.pop()
 
-        if route["idx"] == len(bboxes):
+        if sub["idx"] == len(bboxes):
             continue
 
-        route["idx"] += 1
+        sub["idx"] += 1
 
-        lst = np.array([bboxes[i] for i in route["lst"]])
+        lst = np.array([bboxes[i] for i in sub["lst"]])
         if len(lst) > 0:
             intersection = get_intersection_of_n_bboxes(lst)
             if intersection is None:
                 continue
 
             tmp = get_bbox_center(intersection)
-            if res is None or (np.linalg.norm(c - tmp) < np.linalg.norm(c - cur_c)):
-                res, conf, cur_c = intersection, route["conf"], tmp
+            if np.linalg.norm(c - tmp) < np.linalg.norm(c - cur_c):
+                res, conf, cur_c = intersection, sub["conf"], tmp
 
-        if route["idx"] < len(bboxes):
-            stack.append(route)
+        if sub["idx"] < len(bboxes):
+            stack.append(sub)
             stack.append(
                 {
-                    "idx": route["idx"],
-                    "lst": route["lst"] + [route["idx"]],
-                    "conf": max(route["conf"], [conf["idx"]]),
+                    "idx": sub["idx"],
+                    "lst": sub["lst"] + [sub["idx"]],
+                    "conf": max(sub["conf"], confs["idx"]),
                 }
             )
 
     return res, conf
 
 
-def get_wbboxes_intersection_matrix(wbboxes, limit):
+def get_wbboxes_intersection_matrix(wbboxes: list, limit: np.float32 = 0.75) -> dict:
     m = {i: [[], []] for i in range(len(wbboxes))}
     for i in range(len(wbboxes)):
         cur = wbboxes[i]
-        lst = [
-            j for j in range(i + 1, len(wbboxes)) if limit <= iou(cur[1], wbboxes[j][1])
-        ]
 
-        # if there is some bbox with higher weight
-        if len([True for j in lst if weight(cur) < weight(wbboxes[j])]) > 0:
-            m.pop(i, None)
-            continue
+        lst = []
+        for j in range(i + 1, len(wbboxes)):
+            if limit <= iou(cur[1], wbboxes[j][1]):
+                lst += [j]
+
+            if weight(cur) < weight(wbboxes[j]):
+                m.pop(i, None)
+                lst = []
+                break
 
         for j in lst:
-            if len([True for k in m[j][1] if j in m[k][0]]) > 0:
+            if next((True for k in m[j][1] if j in m[k][0]), False):
                 continue
 
             m[i], m[j] = [m[i][0] + [j], m[i][1]], [m[j][0], m[j][1] + [i]]
