@@ -1,0 +1,11 @@
+$ python3 cli.py --help
+usage: cli.py [-h] [-m MODEL] [-i IMAGE] [-o OUTPUT]
+
+options:
+  -h, --help            show this help message and exit
+  -m MODEL, --model MODEL
+                        Путь к файлу/директории с обученной моделью
+  -i IMAGE, --image IMAGE
+                        Пусть к файлу снимка
+  -o OUTPUT, --output OUTPUT
+                        Директория для сохранения результатов
