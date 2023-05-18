@@ -1,4 +1,3 @@
-
             if weight(cur) < weight(wbboxes[j]):
                 skip = False
                 break
