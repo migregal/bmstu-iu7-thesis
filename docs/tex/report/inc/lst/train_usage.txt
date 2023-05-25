@@ -4,10 +4,8 @@ yolo/engine/trainer: task=detect, mode=train, model=yolov8n.pt, data=dataset/dat
 Overriding model.yaml nc=80 with nc=1
 ...
 Model summary: 225 layers, 3011043 parameters, 3011027 gradients, 8.2 GFLOPs
-
 Transferred 319/355 items from pretrained weights
 ...
 Image sizes 640 train, 640 val
-Using 0 dataloader workers
 Logging results to runs/detect/train
 Starting training for 100 epochs...
