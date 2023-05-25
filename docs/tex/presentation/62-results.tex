@@ -1,0 +1,64 @@
+\frame {
+    \frametitle{\LARGE Полученные результаты}
+    \pgfplotsset{tick label style={font=\tiny\bfseries},
+        label style={font=\small},
+        legend style={font=\tiny}
+    }
+    \begin{columns}
+        \footnotesize
+        \begin{column}{0.5\textwidth}
+            \vskip3.5em
+            \begin{center}
+                $Precision = \frac{TP}{TP + FP}$
+                \vskip0.5em
+                $Recall = \frac{TP}{TP + FN}$
+            \end{center}
+
+            \vskip3.5em
+            $TP$ --- число истинно положительных распознаваний;
+
+            $FP$ --- число ложноположительных распознаваний;
+
+            $FN$ --- число ложно-отрицательных распознаваний;
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \vskip1em
+            \begin{tikzpicture}[scale=.6]
+                \begin{axis}[
+                    axis lines=left,
+                    legend pos=south east,
+                    ymajorgrids=true,
+                    ylabel={Precision},
+                    xmajorgrids=true,
+                    xlabel={Эпоха},
+                    xticklabel style={rotate=45,anchor=east},
+                    xtick={10,20,30,40,50,60,70,80,90,100},
+                    ]
+                    \addplot table[x=epoch,y=metrics/precision(B),col sep=comma] {inc/csv/train_1.csv};
+                    \addplot table[x=epoch,y=metrics/precision(B),col sep=comma] {inc/csv/train_3.csv};
+                    \addplot table[x=epoch,y=metrics/precision(B),col sep=comma] {inc/csv/train_2.csv};
+                    \legend{Kaggle~Ships, Huawei~Ship,ShipRSImageNet}
+                \end{axis}
+            \end{tikzpicture}
+            \vskip0.5em
+            \begin{tikzpicture}[scale=.6]
+                \begin{axis}[
+                    axis lines=left,
+                    legend pos=south east,
+                    ymajorgrids=true,
+                    ylabel={Recall},
+                    xmajorgrids=true,
+                    xlabel={Эпоха},
+                    xticklabel style={rotate=45,anchor=east},
+                    xtick={10,20,30,40,50,60,70,80,90,100},
+                    ]
+                    \addplot table[x=epoch,y=metrics/recall(B),col sep=comma] {inc/csv/train_1.csv};
+                    \addplot table[x=epoch,y=metrics/recall(B),col sep=comma] {inc/csv/train_3.csv};
+                    \addplot table[x=epoch,y=metrics/recall(B),col sep=comma] {inc/csv/train_2.csv};
+                    \legend{Kaggle~Ships, Huawei~Ship,ShipRSImageNet}
+                \end{axis}
+                \end{tikzpicture}
+        \end{column}
+    \end{columns}
+}
