@@ -31,14 +31,15 @@ class Detect:
         self.experts += [YOLO(f) for f in fnames if os.path.isfile(f)]
         self.weights = np.ones(len(self.experts))
 
-    def predict(self, input: cv2.Mat, w: np.ndarray = None) -> None | np.ndarray:
+    def predict(self, input: cv2.Mat, w: np.ndarray = None, limit: np.float32 = 0.75) -> None | np.ndarray:
         w = w or self.weights
 
         if len(w) != len(self.experts):
             return None
 
         input_id = ray.put(input)
-        ray_ids = [apply_expert.remote(input_id, model) for model in self.experts]
+        models = [ray.put(model) for model in self.experts]
+        ray_ids = [apply_expert.remote(input_id, models[i]) for i in range(len(models))]
         r = ray.get(ray_ids)
 
         wbboxes = [
