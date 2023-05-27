@@ -20,14 +20,18 @@ def process(
 ):
     method = Detect(path)
 
-    im = cv2.imread(input)
+    img = cv2.imread(input)
+    height, width, channels = img.shape
+    if height < 640 or width < 640 or channels < 3:
+        print("Некорректный размер изображения")
+        return
 
-    bboxes = method.predict(im)
+    bboxes = method.predict(img)
 
-    im = apply_bboxes(im, bboxes, line_width, color, txt_color)
+    img = apply_bboxes(img, bboxes, line_width, color, txt_color)
 
     Path(output).mkdir(parents=True, exist_ok=True)
-    cv2.imwrite(os.path.join(output, f"detect-{int(time.time())}.jpeg"), im)
+    cv2.imwrite(os.path.join(output, f"detect-{int(time.time())}.jpeg"), img)
 
 
 if __name__ == "__main__":
@@ -48,8 +52,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     ray.init(log_to_driver=True, num_gpus=1)
-    # ray.init(log_to_driver=True, address='172.25.185.82:6379')
-    # ray.init(log_to_driver=True, address='192.168.31.201:10001')
     # ray.init('ray://192.168.31.201:10001', log_to_driver=True)
 
     process(args.model, args.image, args.output)
