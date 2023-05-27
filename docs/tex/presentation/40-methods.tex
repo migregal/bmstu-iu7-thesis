@@ -1,0 +1,21 @@
+\frame {
+    \frametitle{\LARGE Методы распознавания объектов}
+    \vskip3.5em
+
+    \begin{table}[!h]
+        \small
+        \begin{center}
+            \begin{tabular}{|l|cc|c|c|c|}
+                \hline
+                CNN & \multicolumn{2}{c|}{$mAP_{IoU}$} & Параметры, & FLOPs, & FPS \\
+                    & $mAP_{0.5}$ & $mAP_{0.5:0.95}$    & млн. шт.   & млрд.  & \\\hline
+                Faster R-CNN & 62.5 & ---  & 53   & 888   & < 20 \\
+                YOLOv5n      & 45.7 & 28.0 & 1.9  & 4.5   & 934 \\
+                YOLOv5x      & 50.7 & 68.9 & 86.7 & 205.7 & 252 \\
+                \rowcolor{lightgray} \textbf{YOLOv8n}      & \textbf{37.3} & \textbf{50.4} & \textbf{3.2}  & \textbf{8.7}   & \textbf{1163} \\
+                YOLOv8x      & 53.9 & ---  & 68.2 & 257.8 & 236 \\
+                \hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+}

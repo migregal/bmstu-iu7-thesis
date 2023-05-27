@@ -1,0 +1,58 @@
+\frame {
+    \frametitle{\LARGE Исследование}
+    \pgfplotsset{tick label style={font=\tiny\bfseries},
+        label style={font=\small},
+        legend style={font=\tiny}
+    }
+    \begin{columns}
+        \footnotesize
+        \begin{column}{0.5\textwidth}
+            \vskip3.5em
+            Технические характеристики:
+            \begin{itemize}
+                \item CPU: Intel~Core™~i7-4790
+                \item GPU: NVIDIA~GeForce~RTX~2060~6144Мб
+                \item RAM: 16~Гб
+                \item операционная система: Ubuntu~22.04~via~WSL~2
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \vskip1em
+            \begin{center}
+            \begin{tikzpicture}[scale=.6]
+                \begin{axis}[
+                    legend style={at={(axis cs:880,18)},anchor=south west},
+                    ymajorgrids=true,
+                    ylabel={T,~мс},
+                    xmajorgrids=true,
+                    xlabel={Размерность, пикс.},
+                    xticklabel style={rotate=45,anchor=east},
+                    xtick={640,784,880,1280},
+                    ]
+                    \addplot table[x=size,y=preprocess,col sep=comma, mark=halfdiamond*] {inc/csv/time_parallel.csv};
+                    \addplot table[x=size,y=inference,col sep=comma] {inc/csv/time_parallel.csv};
+                    \addplot table[x=size,y=postprocess,col sep=comma] {inc/csv/time_parallel.csv};
+                    \legend{Предобработка, Обработка, Постобработка}
+                \end{axis}
+            \end{tikzpicture}
+            \vskip0.5em
+            \begin{tikzpicture}[scale=.6]
+                \begin{axis}[
+                    legend pos=south east,
+                    ymajorgrids=true,
+                    ylabel={Доля},
+                    xmajorgrids=true,
+                    xlabel={Пороговое значение},
+                    xticklabel style={rotate=45,anchor=east},
+                    xtick={0.5,0.6,0.75,0.85,0.9},
+                    ]
+                    \addplot table[x=limit,y=precision,col sep=comma] {inc/csv/limit.csv};
+                    \addplot table[x=limit,y=recall,col sep=comma] {inc/csv/limit.csv};
+                    \legend{Precision, Recall}
+                \end{axis}
+            \end{tikzpicture}
+            \end{center} 
+        \end{column}
+    \end{columns}
+}
