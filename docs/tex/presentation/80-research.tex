@@ -10,10 +10,10 @@
             \vskip3.5em
             Технические характеристики:
             \begin{itemize}
-                \item CPU: Intel~Core™~i7-4790
-                \item GPU: NVIDIA~GeForce~RTX~2060~6144Мб
-                \item RAM: 16~Гб
-                \item операционная система: Ubuntu~22.04~via~WSL~2
+                \item ЦП: Intel~Core™~i7-4790
+                \item ГП: NVIDIA~GeForce~RTX~2060~6144Мб
+                \item ОЗУ: 16~Гб
+                \item Операционная система: Ubuntu~22.04~via~WSL~2
             \end{itemize}
         \end{column}
 
@@ -49,7 +49,7 @@
                     ]
                     \addplot table[x=limit,y=precision,col sep=comma] {inc/csv/limit.csv};
                     \addplot table[x=limit,y=recall,col sep=comma] {inc/csv/limit.csv};
-                    \legend{Precision, Recall}
+                    \legend{Точность, Полнота}
                 \end{axis}
             \end{tikzpicture}
             \end{center} 

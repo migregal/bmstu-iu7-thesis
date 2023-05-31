@@ -13,8 +13,11 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 
+\usepackage{wrapfig}
+
 \setbeamertemplate{navigation symbols}{}
 
+\setbeamercolor*{heading}{fg=black}
 \setbeamercolor*{title}{fg=black}
 \setbeamercolor*{subtitle}{fg=black}
 \setbeamercolor*{frametitle}{fg=black}
@@ -28,18 +31,38 @@
   \vbox{}
   \vfill
   \begingroup
+      \begin{beamercolorbox}[sep=8pt,#1]{heading}
+        \begin{wrapfigure}[7]{l}{0.12\linewidth}
+            \includegraphics[width=0.89\linewidth]{bmstu-logo}
+        \end{wrapfigure}
+        \tiny
+        \begin{center}
+            Министерство науки и высшего образования Российской Федерации
+
+            Федеральное государственное бюджетное образовательное учреждение\\
+             высшего образования
+
+            <<Московский государственный технический университет имени Н. Э. Баумана\\
+            (национальный исследовательский университет)>>
+        \end{center}
+    \end{beamercolorbox}
     \begin{beamercolorbox}[sep=8pt,center,#1]{title}
-      \LARGE\usebeamerfont{title}\inserttitle\par%
-    \end{beamercolorbox}%
-    \vskip1.5em
+        \scriptsize
+        Выпускная квалификационная работа бакалавра
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=8pt,center,#1]{title}
+        \Large\usebeamerfont{title}\inserttitle\par
+    \end{beamercolorbox}    
+    \vskip0.75em
     \begin{beamercolorbox}[sep=8pt,#1]{date}
         \usebeamerfont{subtitle}
         \scriptsize\insertsubtitle
-    \end{beamercolorbox}\vskip0.5em
-    \vskip3.5em
+    \end{beamercolorbox}
+    \vskip0.75em
     \begin{beamercolorbox}[sep=8pt,center,#1]{date}
       \usebeamerfont{date}\footnotesize\insertdate
-    \end{beamercolorbox}\vskip0.5em
+    \end{beamercolorbox}
+    \vskip0.5em
   \endgroup
 }
 \makeatother
@@ -73,7 +96,7 @@
   \hfill%
   \usebeamercolor[fg]{page number in head/foot}%
   \usebeamerfont{page number in head/foot}%
-  %\insertframenumber%
+  \insertframenumber%
   %\,/\,\inserttotalframenumber
   \kern1em\vskip1em%
 }

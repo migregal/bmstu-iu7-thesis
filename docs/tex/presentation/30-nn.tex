@@ -3,17 +3,17 @@
     \vskip3.5em
 
     \begin{table}[!h]
-        \small
+        %\small
         \begin{center}
-            \begin{tabular}{|l|c|c|c|c|}
+            \begin{tabular}{|l|c|c|c|}
                 \hline
-                    Тип & Возможность & \multicolumn{3}{c|}{Устойчивость к} \\ \cline{3-5}
-                    нейронной & параллельного & искажениям & смещениям & шумам \\
-                    сети & обучения & & & \\\hline
-                Персептрон & + & ---  & --- & + \\
-                Рекуррентная & + & + & + & + \\
-                \rowcolor{lightgray} \textbf{Сверточная} & \textbf{+} & \textbf{+} & \textbf{+} & \textbf{+} \\
-                Капсульная & + & + & + & --- \\
+                    Тип & \multicolumn{3}{c|}{Устойчивость к} \\ \cline{2-4}
+                    нейронной & искажениям & смещениям & шумам \\
+                    сети & & & \\\hline
+                %Персептрон & ---  & --- & + \\
+                %Рекуррентная & + & + & + \\
+                \rowcolor{lightgray} \textbf{Сверточная} & \textbf{+} & \textbf{+} & \textbf{+} \\
+                Капсульная & + & + & --- \\
                 \hline
             \end{tabular}
         \end{center}
