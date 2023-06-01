@@ -9,17 +9,20 @@
         \begin{column}{0.5\textwidth}
             \vskip3.5em
             \begin{center}
-                $\textup{Точность} = \frac{TP}{TP + FP}$
+                $L_{CIoU} = 1 - IoU +R_{CIoU}$
                 \vskip0.5em
-                $\textup{Полнота} = \frac{TP}{TP + FN}$
+                $R_{CIoU} = \frac{\rho^2(b,b^{gt})}{c^2} + \alpha v$
+                \vskip0.5em
+                $\alpha = \frac{v}{(1 - IoU) + v}$
+                \vskip0.5em
+                $v = \frac{4}{\pi}(\arctan{\frac{w^{gt}}{h^{gt}}} - \arctan{\frac{w}{h}})^2$
+                \vskip2em
+                $\textup{Точность} = \frac{TP}{TP + FP}$
             \end{center}
 
-            \vskip3.5em
-            $TP$ --- число истинно положительных распознаваний;
-
-            $FP$ --- число ложноположительных распознаваний;
-
-            $FN$ --- число ложно-отрицательных распознаваний;
+            \vskip1.5em
+            $TP$ --- число истинно положительных распознаваний\\
+            $FP$ --- число ложноположительных распознаваний
         \end{column}
 
         \begin{column}{0.5\textwidth}
@@ -45,17 +48,17 @@
             \begin{tikzpicture}[scale=.6]
                 \begin{axis}[
                     axis lines=left,
-                    legend pos=south east,
+                    legend pos=north east,
                     ymajorgrids=true,
-                    ylabel={Полнота},
+                    ylabel={Функция потерь (CIoU loss)},
                     xmajorgrids=true,
                     xlabel={Эпоха, шт.},
                     xticklabel style={rotate=45,anchor=east},
                     xtick={10,20,30,40,50,60,70,80,90,100},
                     ]
-                    \addplot table[x=epoch,y=metrics/recall(B),col sep=comma] {inc/csv/train_1.csv};
-                    \addplot table[x=epoch,y=metrics/recall(B),col sep=comma] {inc/csv/train_3.csv};
-                    \addplot table[x=epoch,y=metrics/recall(B),col sep=comma] {inc/csv/train_2.csv};
+                    \addplot table[x=epoch,y=train/box_loss,col sep=comma] {inc/csv/train_1.csv};
+                    \addplot table[x=epoch,y=train/box_loss,col sep=comma] {inc/csv/train_3.csv};
+                    \addplot table[x=epoch,y=train/box_loss,col sep=comma] {inc/csv/train_2.csv};
                     \legend{Kaggle~Ships, Huawei~Ship,ShipRSImageNet}
                 \end{axis}
                 \end{tikzpicture}
